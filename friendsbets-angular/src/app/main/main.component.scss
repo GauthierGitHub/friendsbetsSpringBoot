@@ -1,0 +1,24 @@
+section {
+  width: 100%;
+  background-color: rgba(82, 82, 107, 0.164);
+  color: black;
+  display: inline-block;
+  // https://html-css-js.com/css/generator/border-outline/
+  border: 5px inset rgba(28,110,164,0.41);
+  border-radius: 24px;
+}
+
+section > img {
+  float: left;
+  max-width: 2em;
+  max-height: 2em;
+}
+
+section > h2 {
+  float: left;
+  width: 100%;
+}
+
+section > .dropdown {
+  float: right;
+}

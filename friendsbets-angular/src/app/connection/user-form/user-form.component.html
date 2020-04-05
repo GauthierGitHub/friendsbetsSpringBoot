@@ -1,0 +1,28 @@
+<main class="row text-center d-flex justify-content-center">
+    <form class="form-signin text-center">
+        <h1 class="h3 mb-3 font-weight-normal">{{title}}</h1>
+
+        <ng-container *ngIf="title == 'Register'">
+            <label for="nickname" class="sr-only">Nickname</label>
+            <input type=text name=user.nickname [(ngModel)]=user.nickname class=form-control placeholder="Nickname" required autofocus>
+            <p class="invalid-feedback"></p>
+        </ng-container>
+
+        <label for="email" class="sr-only">Email address</label>
+        <input type=text name=user.email [(ngModel)]=user.email class=form-control placeholder="Email address" required
+            autofocus>
+        <p class="invalid-feedback"></p>
+
+        <label for="Password" class="sr-only">Password</label>
+        <input type="password" name=user.password [(ngModel)]=user.password id="Password" class="form-control"
+            placeholder="Password" required>
+        <p class="invalid-feedback"></p>
+
+        <button class="btn btn-lg btn-primary btn-block" (click)="userSending()">{{ label }}</button>
+
+    </form>
+    <br>
+    <div class="col-12 row justify-content-center">
+        <a class="col-3 btn btn-lg btn-primary btn-block" (click)="fillingDb()">Filling DB</a>
+    </div>
+</main>

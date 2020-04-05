@@ -1,0 +1,16 @@
+<app-header></app-header>
+<form class="text-center" (ngSubmit)=onFormSubmit()>
+  <div class="row">
+    <h2 class="col-12">Choose a name for this group</h2>
+    <input  class="col-8" type=text class=form-control name=g-name [(ngModel)]=g.name  placeholder="My Group">
+    <p class="invalid-feedback"></p>
+    <h2 class="col-8">Select your friends:</h2>
+    <button class="col-3" type="submit">Done !</button>
+  </div>
+
+  <ng-container *ngFor="let friend of friends">
+    <input class="user-selector" type="checkbox" [id]=friend.id [name]=friend.nickname [value]=friend.id (click)="onCheckboxClicked(friend)">
+    <label for="{{friend.id}}">{{ friend.nickname }}</label>
+  </ng-container>
+
+</form>
