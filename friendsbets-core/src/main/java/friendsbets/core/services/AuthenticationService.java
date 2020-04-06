@@ -19,7 +19,6 @@ public class AuthenticationService {
 	
 	@DeletePassword
 	public User register(User u) {
-		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		return ur.save(u);
 	}
 	

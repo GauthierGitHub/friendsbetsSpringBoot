@@ -20,40 +20,40 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
-//    private AuthenticationManager authenticationManager;
-//
-//    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-//        this.authenticationManager = authenticationManager;
-//    }
-//
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest req,
-//                                                HttpServletResponse res) throws AuthenticationException {
-//        try {
-//            friendsbets.core.sb.models.User creds = new ObjectMapper()
-//                    .readValue(req.getInputStream(), friendsbets.core.sb.models.User.class);
-//
-//            return authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            creds.getEmail(),
-//                            creds.getPassword(),
-//                            new ArrayList<>())
-//            );
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    @Override
-//    protected void successfulAuthentication(HttpServletRequest req,
-//                                            HttpServletResponse res,
-//                                            FilterChain chain,
-//                                            Authentication auth) throws IOException, ServletException {
-//
-//        String token = JWT.create()
-//                .withSubject(((User) auth.getPrincipal()).getUsername())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-//                .sign(HMAC512(SECRET.getBytes()));
-//        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-//    }
+    private AuthenticationManager authenticationManager;
+
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest req,
+                                                HttpServletResponse res) throws AuthenticationException {
+        try {
+            friendsbets.core.models.User creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), friendsbets.core.sb.models.User.class);
+
+            return authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            creds.getEmail(),
+                            creds.getPassword(),
+                            new ArrayList<>())
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest req,
+                                            HttpServletResponse res,
+                                            FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
+
+        String token = JWT.create()
+                .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .sign(HMAC512(SECRET.getBytes()));
+        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+    }
 }

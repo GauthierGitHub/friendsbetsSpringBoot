@@ -1,6 +1,7 @@
 package friendsbets.ws.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +27,13 @@ public class AuthenticationController {
 	
 	@Autowired
 	private UserService us;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@PostMapping("/register")
 	public User register(@RequestBody User u) {
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		return as.register(u);
 	}
 	
