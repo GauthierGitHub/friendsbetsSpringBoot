@@ -8,14 +8,6 @@ import org.springframework.stereotype.Service;
 import friendsbets.core.models.Message;
 import friendsbets.core.repositories.MessageRepository;
 
-/**
- * TODO Exceptions
- * 
- * All methods what return Messages or update Messages database
- * 
- * @author gauthier
- *
- */
 @Service
 public class MessageService {
 

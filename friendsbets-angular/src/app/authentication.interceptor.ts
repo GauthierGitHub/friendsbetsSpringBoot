@@ -22,7 +22,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             });
         }
         console.log("intercepted");
-        // console.log(this.cs.connectedUser.token);
         
         
         return next.handle(request);

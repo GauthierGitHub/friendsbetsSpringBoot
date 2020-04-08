@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 
-import friendsbets.core.aspects.deletepasswords.DeletePasswords;
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.UserRepository;
 
@@ -24,18 +23,15 @@ public class AuthenticationService {
 	@Autowired
 	UserRepository ur;
 	
-	@DeletePasswords
 	public User register(User u) {
 		u.setToken(JWT.create().sign(HMAC512(SECRET.getBytes())));
-		System.out.println(u.getToken());
 		u.setTokenLastUsed(LocalDateTime.now());
 		return ur.save(u);
 	}
 	
-	@DeletePasswords
 	public User login(String email, String password) {
 		User u = ur.findByEmail(email);
-		u = passwordEncoder.matches(password, u.getPassword()) ? u : null; // TODO: return error.
+		u = passwordEncoder.matches(password, u.getPassword()) ? u : null;
 		return u;
 	}
 

@@ -1,25 +1,17 @@
 package friendsbets.core.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import friendsbets.core.aspects.deletepasswords.DeletePasswords;
 import friendsbets.core.models.Group;
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.GroupRepository;
 import friendsbets.core.repositories.UserRepository;
 
-/**
- * TODO Exceptions
- * 
- * All methods what return Groups or update group database
- * 
- * @author gauthier
- *
- */
 @Service
 public class GroupService {
 
@@ -29,13 +21,9 @@ public class GroupService {
 	UserRepository ur;
 
 	public void save(Group g) {
-//		gr.save(g); // doesn't work with new constructor
-//		g.getUserList().stream().forEach(user-> {
-//			user.getGrpList().add(g); // automatic dirty checking save them in db
-//		});
 		g.getUserList().stream()
 			.map(u -> u.getGrpList())
-			.filter(l -> l != null)
+			.filter(Objects::nonNull)
 			.forEach(gl -> gl.add(g)); // automatic dirty checking save them in db
 	}
 
@@ -43,12 +31,10 @@ public class GroupService {
 		gr.delete(g);
 	}
 
-	@DeletePasswords
 	public void update(Group g) {
 		gr.save(g);
 	}
 
-	@DeletePasswords
 	public List<Group> findAll() {
 		return gr.findAll();
 	}
@@ -58,20 +44,12 @@ public class GroupService {
 		update(g);
 	}
 
-	@DeletePasswords
 	public Group findById(long id) {
 		return gr.findById(id).orElseThrow();
 	}
 
-	@DeletePasswords
 	public Set<Group> findAllForOneUser(long id){
 		return gr.findAllForOneUser(id);
 	}
-	
-	/**
-	 * not needed cause eager fetchType in user ?????
-	 */
-//	public List<FriendsBetsGroup> findAllGroupForOneUser(FriendsBetsUser u) throws GroupNotFoudException {
-//		return gr.findAllGroupForOneUser(u);
-//	}
+
 }

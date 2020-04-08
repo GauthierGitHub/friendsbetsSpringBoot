@@ -1,4 +1,5 @@
 application-dev.properties
+application-dev2.properties
 ###### CONTENT ######
 ## construct database if it not exists
 #spring.jpa.hibernate.ddl-auto=update

@@ -21,6 +21,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<junit-jupiter.version>5.6.1</junit-jupiter.version>
+		<junit-platform.version>1.2.0</junit-platform.version>
+
 	</properties>
 
 	<dependencies>
@@ -54,11 +57,11 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.auth0</groupId>
-		    <artifactId>java-jwt</artifactId>
-		    <version>3.4.0</version>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.4.0</version>
 		</dependency>
-		
+
 
 		<!-- TEST -->
 		<dependency>
@@ -80,31 +83,27 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.6.1</version>
+			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Needed  -->
+		<!-- https://stackoverflow.com/questions/46717693/eclipse-no-tests-found-using-junit-5-caused-by-noclassdeffounderror-for-launcher -->
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform 
+			launcher -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>${junit-platform.version}</version>
 			<scope>test</scope>
-			<version>1.4.199</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-	
-	<!--  Use version Maven 2.5 who doesn't work with locale packagings
-	https://stackoverflow.com/questions/42520595/maven-fails-to-find-local-repo-artifact
-	https://stackoverflow.com/questions/40969374/mvn-install-cannot-find-artifact-in-local-repository
-		<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-	 -->
+
+		<!-- Use version Maven 2.5 who doesn't work with locale packagings https://stackoverflow.com/questions/42520595/maven-fails-to-find-local-repo-artifact 
+			https://stackoverflow.com/questions/40969374/mvn-install-cannot-find-artifact-in-local-repository 
+			<build> <plugins> <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+			</plugin> </plugins> </build> -->
 
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
