@@ -1,7 +1,5 @@
 package friendsbets.ws.controllers;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,31 +11,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import friendsbets.core.models.Friend;
 import friendsbets.core.models.User;
+import friendsbets.core.services.FriendService;
 import friendsbets.core.services.UserService;
 
 @RestController
 @CrossOrigin // not needed, declared for all in Webappconfig
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/friend")
+public class FriendController {
+
+	@Autowired
+	FriendService fs;
 
 	@Autowired
 	UserService us;
-
-	@GetMapping("")
-	public List<User> findAll() {
-		return us.findAll();
-	}
-
+	
 	@GetMapping("/{id}")
-	public User findById(@PathVariable int id) {
-		return us.findById(id);
-	}
-
-	@GetMapping({ "/search", "/search/{pattern}" })
-	public Set<User> findByAliasOrEmailLike(@PathVariable(name = "pattern", required = false) String pattern) {
-//		Logger.getLogger(getClass()).info("//////////!!! search = " + pattern);
-		return us.findByNicknameOrEmailLike(pattern == null ? "" : pattern);
+	public Friend findById(@PathVariable int id) {
+		return fs.findById(id);
 	}
 	
 	/**
@@ -46,8 +38,8 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/find/{id}")
-	public Set<User> findAllOthers(@PathVariable int id) {
-		return us.findAllOthers(id);
+	public Set<Friend> findAllOthers(@PathVariable int id) {
+		return fs.findAllOthers(id);
 	}
 	
 	/**
@@ -55,16 +47,16 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/friends/{id}")
-	public Set<User> findFriends(@PathVariable int id) {
-		return us.findFriends(id);
+	@GetMapping("/myfriends/{id}")
+	public Set<Friend> findFriends(@PathVariable int id) {
+		return fs.findFriends(id);
 	}
 	
 	/**
 	 * Add several friends to a user
 	 */
-	@PostMapping("/friends/add/{id}")
-	public void addFriends(@PathVariable int id, @RequestBody HashSet<User> friends) {
+	@PostMapping("add/{id}")
+	public void addFriends(@PathVariable long id, @RequestBody Set<Friend> friends) {
 		us.addFriends(id, friends);
 	}
 }

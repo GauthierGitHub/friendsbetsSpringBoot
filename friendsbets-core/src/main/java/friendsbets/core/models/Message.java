@@ -32,64 +32,17 @@ public class Message {
 	private long id;
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private User author;
+	private Friend author;
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	@JsonIdentityReference(alwaysAsId = true) // only id in json
 	private Group group;
-	@Temporal(TemporalType.TIMESTAMP) // TODO: verify beetwen angular date or database timestamp
+	@Temporal(TemporalType.TIMESTAMP) // Provided by client side
 	private Date date;
 	@Column(nullable = false)
-	private String content; // TODO limit to 255
+	private String content;
 
 	public Message() {
-	}
-
-	public Message(User user, Group group, Date messageDate, String content) {
-		this.author = user;
-		this.group = group;
-		this.date = messageDate;
-		this.content = content;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public User getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(User user) {
-		this.author = user;
-	}
-
-	public Group getGroup() {
-		return group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 }

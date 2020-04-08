@@ -38,17 +38,6 @@ public class GroupController {
 	public void save(@RequestBody Group g) {
 		gs.save(g);
 	}
-
-	@PostMapping("/{id}")
-	public void update(@RequestBody Group g, @PathVariable int id) {
-		g.setId(id);
-		gs.save(g);
-	}
-
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable int id) {
-		gs.delete(gs.findById(id));
-	}
 	
 	@GetMapping("/mygroups/{id}")
 	public Set<Group> findAllForOneUser(@PathVariable int id) {

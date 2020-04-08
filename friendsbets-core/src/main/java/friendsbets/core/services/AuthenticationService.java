@@ -24,23 +24,7 @@ public class AuthenticationService {
 	UserRepository ur;
 	
 	public User register(User u) {
-		u.setToken(JWT.create().sign(HMAC512(SECRET.getBytes())));
-		u.setTokenLastUsed(LocalDateTime.now());
 		return ur.save(u);
-	}
-	
-	public User login(String email, String password) {
-		User u = ur.findByEmail(email);
-		u = passwordEncoder.matches(password, u.getPassword()) ? u : null;
-		return u;
-	}
-
-	public void update(User u) {
-		ur.save(u);
-	}
-	
-	public void delete(User u) {
-		ur.delete(u);
 	}
 
 }

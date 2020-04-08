@@ -37,9 +37,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             friendsbets.core.models.User creds = new ObjectMapper()
                     .readValue(req.getInputStream(), friendsbets.core.models.User.class);
-            
-            System.out.println(creds.getToken());
-            System.out.println(creds.getNickname());
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

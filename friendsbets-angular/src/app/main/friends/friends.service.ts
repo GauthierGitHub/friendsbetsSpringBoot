@@ -8,7 +8,7 @@ import { User } from 'src/app/models/User.model';
 })
 export class FriendsService {
 
-  private url: string = "http://localhost:8080/";
+  private url: string = "http://localhost:8080/friend";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -18,7 +18,7 @@ export class FriendsService {
    * @param u : User who is searching friends.
    */
   public findAllOthers(u: User): Observable<User[]> {
-    return this.httpClient.get<User[]>(this.url + "user/find/" + u.id);
+    return this.httpClient.get<User[]>(this.url + "find/" + u.id);
   }
 
   /**
@@ -28,7 +28,7 @@ export class FriendsService {
    * @param u 
    */
   public addFriends(friends: User[], u: User): Observable<User[]> {
-    return this.httpClient.post<User[]>(this.url + "user/friends/add/" + u.id, friends);
+    return this.httpClient.post<User[]>(this.url + "add/" + u.id, friends);
   }
 
   /**
@@ -37,6 +37,6 @@ export class FriendsService {
    */
   public findFriends(u: User): Observable<User[]> {
     // TODO: Get all friends for one user
-    return this.httpClient.get<User[]>(this.url + "user/friends/" + u.id);
+    return this.httpClient.get<User[]>(this.url + "myfriends/" + u.id);
   }
 }

@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserService us;
 
-
     @Override
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
         friendsbets.core.models.User user = us.findByNickname(nickname);

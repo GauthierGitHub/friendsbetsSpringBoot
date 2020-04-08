@@ -8,14 +8,6 @@ import org.springframework.stereotype.Service;
 import friendsbets.core.models.Match;
 import friendsbets.core.repositories.MatchRepository;
 
-/**
- * TODO Exceptions
- * 
- * All methods what return Matchs or update Matchs database
- * 
- * @author gauthier
- *
- */
 @Service
 public class MatchService {
 

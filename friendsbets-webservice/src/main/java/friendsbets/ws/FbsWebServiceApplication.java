@@ -27,6 +27,7 @@ public class FbsWebServiceApplication {
 		return new WebMvcConfigurer() {
 	         @Override
 	         public void addCorsMappings(CorsRegistry registry) {
+	        	 System.out.println("addCorsMapping");
 	        	 registry.addMapping("/**")
 					.allowedMethods("GET","POST","PUT","UPDATE","DELETE","OPTIONS")
 					.allowedOrigins("http://localhost:4200");
