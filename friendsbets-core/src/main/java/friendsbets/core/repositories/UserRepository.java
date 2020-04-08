@@ -64,8 +64,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			nativeQuery = true)
 	void addFriends(long id, User friend);
 
-	// TODO: Create an index on UserFbs.email
+	// TODO: Create an index on UserFbs.email or nickname ?
 	User findByEmail(String email);
+	User findByNickname(String nickname);
 	
 
 	/**

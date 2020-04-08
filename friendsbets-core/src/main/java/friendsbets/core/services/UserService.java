@@ -7,7 +7,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import friendsbets.core.aspects.deletepasswords.DeletePassword;
 import friendsbets.core.aspects.deletepasswords.DeletePasswords;
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.UserRepository;
@@ -32,7 +31,7 @@ public class UserService {
 //			.addRule("alias", "Alias \"Pierre\" is not allowed !", 
 //					me -> !me.getNickname().toLowerCase().equals("pierre"));
 
-	@DeletePassword
+	@DeletePasswords
 	public User save(User u) {
 		return ur.save(u); // automatic dirty checking set u.id
 	}
@@ -42,17 +41,22 @@ public class UserService {
 		return ur.findAll();
 	}
 
-	@DeletePassword
+	@DeletePasswords
 	public User findById(long id) {
 		return ur.findById(id).orElseThrow();
 	}
 
-	@DeletePassword
+	@DeletePasswords
 	public User findByEmail(String email) {
 		return ur.findByEmail(email);
 	}
 
-	@DeletePassword
+	//@DeletePassword password needed by UserDetailsServiceImpl
+	public User findByNickname(String nickname) {
+		return ur.findByNickname(nickname);
+	} 
+
+	@DeletePasswords
 	public User findByEmailAndPassword(String email, String password) {
 		return ur.findByEmailAndPassword(email, password);
 	}
@@ -74,6 +78,7 @@ public class UserService {
 	@DeletePasswords
 	public Set<User> findByNicknameOrEmailLike(String pattern) {
 		return ur.findByNicknameOrEmailLike(pattern);
-	} 
+	}
+
 
 }

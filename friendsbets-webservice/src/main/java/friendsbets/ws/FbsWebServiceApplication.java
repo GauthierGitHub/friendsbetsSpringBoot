@@ -20,7 +20,7 @@ public class FbsWebServiceApplication {
 	}
 
 	/**
-	 * Enabling CORS (Cross-Origin Resource Sharing) from angular
+	 * Enabling CORS (Cross-Origin Resource Sharing) from angular (localhost:4200)
 	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

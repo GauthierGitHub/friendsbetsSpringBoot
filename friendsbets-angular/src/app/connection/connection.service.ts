@@ -15,7 +15,7 @@ export class ConnectionService {
 
   constructor(private httpClient: HttpClient, private cookieServ: CookieService) {
     // TODO: Remove me !
-    if (!this.connectedUser) this.login("Email8", "Password8");
+    // if (!this.connectedUser) this.login("Email8", "Password8");
   }
 
   /**
@@ -105,5 +105,8 @@ export class ConnectionService {
     return this._connectedUser;
   }
 
+  isConnected(): boolean {
+    return this.connectedUser != undefined;
+  }
 
 }

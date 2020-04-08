@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConnectionService } from './connection.service';
+import { ConnectionService } from './connection/connection.service';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  //cs : ConnectionService;
-
-    constructor(private cs: ConnectionService) {
-    //   this.cs = cs;
-     }
+    constructor(private cs: ConnectionService) { }
 
     /**
      * Add map Authorization: <token>
@@ -25,6 +21,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 }
             });
         }
+        console.log("intercepted");
+        // console.log(this.cs.connectedUser.token);
+        
+        
         return next.handle(request);
     }
 }

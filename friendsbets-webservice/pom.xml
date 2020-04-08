@@ -16,7 +16,7 @@
 	<artifactId>friendsbets-webservice</artifactId>
 	<name>friendsbets-webservice</name>
 	<description>Challenge your friends !</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>11</java.version>

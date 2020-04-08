@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { HttpClient } from '@angular/common/http';
 
@@ -25,6 +25,11 @@ import { ManageFriendsComponent } from './main/friends/manage-friends/manage-fri
 import { MessageComponent } from './main/message/message-box/message.component';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './structure/footer/footer.component';
+import { ConnectionService } from './connection/connection.service';
+import { FriendsService } from './main/friends/friends.service';
+import { GroupsService } from './main/group/groups.service';
+import { MessageService } from './main/message/message.service';
+import { AuthenticationInterceptor } from './authentication.interceptor';
 
 
 @NgModule({
@@ -51,7 +56,17 @@ import { FooterComponent } from './structure/footer/footer.component';
     BrowserAnimationsModule,
   ],
   providers: [
-    CookieService
+    CookieService,
+    ConnectionService,
+    FriendsService,
+    GroupsService,
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+      deps: [ConnectionService]
+    }
   ],
   
   bootstrap: [AppComponent]

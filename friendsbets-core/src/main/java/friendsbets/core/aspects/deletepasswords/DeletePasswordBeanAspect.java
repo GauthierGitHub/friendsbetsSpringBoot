@@ -1,26 +1,64 @@
 package friendsbets.core.aspects.deletepasswords;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+import friendsbets.core.models.Group;
 import friendsbets.core.models.User;
 
 @Component
 @Aspect
 public class DeletePasswordBeanAspect {
 
-	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="users")
-	public void deletePasswords(Set<User> users) {
-		users.stream().forEach(x -> x.setPassword(null));
-	}
+//	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="usersOrGroups")
+//	public <T> void deletePassword(Collection<T> usersOrGroups) throws Throwable {
+//		System.out.println("delete password Aspect");
+//		if(usersOrGroups.getClass() == User.class)
+//			usersOrGroups.stream().forEach(x -> ((User) x).setPassword(null));
+//		else if(usersOrGroups.getClass() == Group.class)
+//			usersOrGroups.stream()
+//				.flatMap(groupsStream -> ((Group)groupsStream).getUserList().stream())
+//				.forEach(u -> u.setPassword(null));
+//		else
+//			throw new Exception();
+//	}
+
+//			Set<User> users = usersOrGroups.stream()
+//			.flatMap(groupStream -> ((Group) groupStream).getUserList())
+//			.map(userStream -> userStream.stream())
+//			.collect(Collectors.toSet());
 	
-	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePassword)", returning="user")
-	public void deletePassword(User user) {
+	
+	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="user")
+	public void deleteUserPassword(User user) {
 		user.setPassword(null);
 	}
+
+	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="group")
+	public void deleteGroupPassword(Group group) {
+		group.getUserList().forEach(u -> u.setPassword(null));
+	}
+	
+	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="users")
+	public void deleteUsersPassword(Collection<User> users) {
+		users.forEach(u -> u.setPassword(null));
+	}
+	
+	@AfterReturning(pointcut="@annotation(friendsbets.core.aspects.deletepasswords.DeletePasswords)", returning="groups")
+	public void deleteGroupsPassword(Collection<Group> groups) {
+		// Méthode 1
+		groups.forEach(ul -> ul.getUserList()
+				.forEach(u -> u.setPassword(null)));
+		// Méthode 2
+		groups.stream()
+			.flatMap(g -> g.getUserList().stream())
+			.forEach(u -> u.setPassword(null));
+	}
+	
+	
 }
 /* EXEMPLE
 package friendsbets.core.sb.aspects;

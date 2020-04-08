@@ -1,4 +1,4 @@
-package friendsbets.ws.securingweb;
+package friendsbets.ws.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static friendsbets.core.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
@@ -29,13 +33,17 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
+
         try {
             friendsbets.core.models.User creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), friendsbets.core.sb.models.User.class);
+                    .readValue(req.getInputStream(), friendsbets.core.models.User.class);
+            
+            System.out.println(creds.getToken());
+            System.out.println(creds.getNickname());
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
+                            creds.getNickname(),
                             creds.getPassword(),
                             new ArrayList<>())
             );

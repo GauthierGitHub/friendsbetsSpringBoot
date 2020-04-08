@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import friendsbets.core.aspects.deletepasswords.DeletePasswords;
 import friendsbets.core.models.Group;
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.GroupRepository;
@@ -42,10 +43,12 @@ public class GroupService {
 		gr.delete(g);
 	}
 
+	@DeletePasswords
 	public void update(Group g) {
 		gr.save(g);
 	}
 
+	@DeletePasswords
 	public List<Group> findAll() {
 		return gr.findAll();
 	}
@@ -55,10 +58,12 @@ public class GroupService {
 		update(g);
 	}
 
+	@DeletePasswords
 	public Group findById(long id) {
 		return gr.findById(id).orElseThrow();
 	}
 
+	@DeletePasswords
 	public Set<Group> findAllForOneUser(long id){
 		return gr.findAllForOneUser(id);
 	}
