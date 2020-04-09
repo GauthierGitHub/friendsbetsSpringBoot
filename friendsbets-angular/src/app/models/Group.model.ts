@@ -1,14 +1,14 @@
-import { User } from './User.model';
 import { IFriendsBetsModels } from './models-interfaces/IFriendsBetsModels';
+import { Friend } from './Friend.model';
 
 export class Group implements IFriendsBetsModels {
     
     readonly IS_MODEL: boolean = true;
     private _id: number;
     private _name: string;
-    private _userList: User[];
-    // TODO: replace string by models ?
-    private _betList: string[];
+    private _friends: Friend[];
+    // TODO: replace string by models
+    private _bets: string[];
     private _groupMessages: string[];
     private _picturePath: string;
 
@@ -35,18 +35,18 @@ export class Group implements IFriendsBetsModels {
         this._name = _name;
     }
 
-    get userList(): User[] {
-        return this._userList;
+    get friends(): Friend[] {
+        return this._friends;
     }
-    set userList(_userList: User[]){
-        this._userList = _userList;
+    set friends(friends: Friend[]){
+        this._friends = friends;
     }
 
-    get betList(): string[] {
-        return this._betList;
+    get bets(): string[] {
+        return this._bets;
     }
-    set betList(_betList: string[]){
-        this._betList = _betList;
+    set bets(_bets: string[]){
+        this._bets = _bets;
     }
 
     get groupMessages(): string[] {

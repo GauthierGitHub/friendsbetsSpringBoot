@@ -6,13 +6,14 @@ import { Observable } from 'rxjs';
 
 import { Group } from 'src/app/models/Group.model';
 import { Serializer } from '../../models/serializer/Serializer'
+import { Friend } from 'src/app/models/Friend.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupsService {
 
-  private url: string = "http://localhost:8080/";
+  private url: string = "http://localhost:8080/group/";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,9 +25,13 @@ export class GroupsService {
   public createGroup(g: Group): Observable<Group> {
     g.id = undefined;
     // substract unecessary datas
-    g.userList.forEach(x => x=new User(x.id))
+    g.friends.forEach(x => x=new Friend(x.id))
+    console.log(g);
+    
     g = Serializer.serializeToJSON(g);
-    return this.httpClient.post<Group>(this.url + "group", Serializer.serializeToJSON(g));
+    console.log(g);
+    
+    return this.httpClient.post<Group>(this.url, Serializer.serializeToJSON(g));
   }
 
   /**
@@ -34,7 +39,7 @@ export class GroupsService {
    * @param u 
    */
   public findAllForOneUser(u: User): Observable<Group[]> {
-    return this.httpClient.get<Group[]>(this.url + "group/mygroups/" + u.id);
+    return this.httpClient.get<Group[]>(this.url + "mygroups/" + u.id);
   }
 
   /**

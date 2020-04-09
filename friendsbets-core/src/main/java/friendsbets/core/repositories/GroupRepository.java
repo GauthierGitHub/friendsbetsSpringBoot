@@ -11,8 +11,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 
 	@Query(value =
 			"SELECT * FROM GroupFbs "
-			+ "INNER JOIN GroupFbs_userList ON GroupFbs.id = GroupFbs_userList.grpList_id "
-			+ "WHERE userList_id = ?1"
+			+ "INNER JOIN GroupFbs_friends ON GroupFbs.id = GroupFbs_friends.GroupFbs_id "
+			+ "WHERE friends_id = ?1"
 			, nativeQuery = true)
 	Set<Group> findAllForOneUser(long id);
 

@@ -67,7 +67,7 @@ export class MessageComponent implements OnInit {
    */
   sendMessage() {
     this.ms.saveMessage(this.messageToSend, () => {
-      // Succed :
+      // Succeed :
       this.messages.push(this.messageToSend);
       this.messageToSend = new Message(-1, this.cs.connectedUser, this.group, "");
       setTimeout(() => this.scroll(this.bottom), 50); // has to wait DOM writting

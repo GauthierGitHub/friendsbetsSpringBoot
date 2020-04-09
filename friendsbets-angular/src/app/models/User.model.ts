@@ -1,39 +1,25 @@
 import { IFriendsBetsModels } from './models-interfaces/IFriendsBetsModels';
+import { Friend } from './Friend.model';
 
-export class User implements IFriendsBetsModels {
+export class User extends Friend implements IFriendsBetsModels {
 
     readonly IS_MODEL: boolean = true;
-    private _id: number;
-    private _nickname: string;
     private _email: string;
     private _password: string;
     private _token: string;
     private _tokenLastUsed: Date;
-    private _friends: User[];
-    private _picturePath: string;
+    private _friends: Friend[];
 
     constructor();
-    constructor(id: number, nickname: string, email: string, password: string);
+    constructor(id: number, nickname: string, email: string, password: string, picturePath: string, token: string, tokenLastUsed: Date);
     constructor(id?: number);
-    constructor(id?: number, nickname?: string, email?: string, password?: string) {
-        this._id = id ? id : 0;
-        this._nickname = nickname ? nickname : undefined;
+    constructor(id?: number, nickname?: string, email?: string, password?: string);
+    constructor(id?: number, nickname?: string, email?: string, password?: string, picturePath?: string, token?: string, tokenLastUsed?: Date) {
+        super(id, nickname, picturePath)
         this._email = email ? email : undefined;
         this._password = password ? password : undefined;
-    }
-
-    get id(): number {
-        return this._id;
-    }
-    set id(id: number) {
-        this._id = id;
-    }
-
-    get nickname(): string {
-        return this._nickname;
-    }
-    set nickname(nickname: string) {
-        this._nickname = nickname;
+        this._token = token ? token : "noToken"; // TODO: other initialization ?
+        this._tokenLastUsed = tokenLastUsed ? tokenLastUsed : undefined;
     }
 
     get email(): string {
@@ -64,17 +50,11 @@ export class User implements IFriendsBetsModels {
         this._tokenLastUsed = _tokenLastUsed;
     }
 
-    get friends(): User[] {
+    get friends(): Friend[] {
         return this._friends;
     }
-    set friends(_friends: User[]) {
+    set friends(_friends: Friend[]) {
         this._friends = _friends;
     }
 
-    get picturePath(): string {
-        return this._picturePath;
-    }
-    set picturePath(_picturePath: string) {
-        this._picturePath = _picturePath;
-    }
 }

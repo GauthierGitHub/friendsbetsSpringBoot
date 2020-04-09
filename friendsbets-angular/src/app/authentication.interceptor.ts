@@ -21,9 +21,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 }
             });
         }
-        console.log("intercepted");
-        
-        
         return next.handle(request);
     }
 }

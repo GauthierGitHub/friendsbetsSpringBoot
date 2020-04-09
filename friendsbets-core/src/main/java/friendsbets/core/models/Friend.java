@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -20,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+//@MappedSuperclass
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jsonType")
 @JsonIdentityInfo(scope = Friend.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -41,8 +41,8 @@ public class Friend {
 		this(0L, null, null, null);
 	}
 
-	public Friend(long l, String nickname) {
-		this(l, nickname, null, null);
+	public Friend(long id, String nickname) {
+		this(id, nickname, null, null);
 	}
 	
 	Friend(long id, String nickname, String picturePath, Set<Group> groups) {

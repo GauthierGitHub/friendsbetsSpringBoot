@@ -3,16 +3,11 @@ package friendsbets.ws.controllers;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static friendsbets.core.security.SecurityConstants.SECRET;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,27 +28,34 @@ public class AuthenticationController {
 	AuthenticationService as;
 	
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
 	UserService us;
+	
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	public AuthenticationController() {
+		this.passwordEncoder = new BCryptPasswordEncoder();
+	}
 
 	@PostMapping("/register")
 	public User register(@RequestBody User u) {
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.setToken(JWT.create().sign(HMAC512(SECRET.getBytes())));
-		u.setTokenLastUsed(LocalDateTime.now());
+		u.setTokenLastUsed();
 		return as.register(u);
 	}
 	
 	@PostMapping("/login")
-	public User login(@RequestParam String email, @RequestParam String password) {
+	public User login(@RequestParam String email, @RequestParam String password) throws RuntimeException {
 		User u = us.findByEmail(email);
-		u = passwordEncoder.matches(password, u.getPassword()) ? u : null; //TODO: error
-		u.setTokenLastUsed(LocalDateTime.now());
-		us.save(u);
-		u.setPassword(null);
-		return u;
+		u = passwordEncoder.matches(password, u.getPassword()) ? u : null;
+		if (u != null) {
+			u.setTokenLastUsed();
+			us.save(u);
+			u.setPassword(null);
+			return u;
+		} else
+			throw new RuntimeException(); //TODO: error
+		
 	}
 
 }

@@ -1,23 +1,24 @@
 import { User } from './User.model';
 import { Group } from './Group.model';
 import { IFriendsBetsModels } from './models-interfaces/IFriendsBetsModels';
+import { Friend } from './Friend.model';
 
 export class Message implements IFriendsBetsModels {
     
     readonly IS_MODEL: boolean = true;
     private _id: number;
-    private _author: User;
+    private _author: Friend;
     private _group: Group;
     private _date: Date;
     private _content: string;
 
     
     constructor();
-    constructor(id: number, author: User, group: Group, content: string);
+    constructor(id: number, author: Friend, group: Group, content: string);
     constructor(id?);
-    constructor(id?: number, author?: User, group?: Group, content?: string) {
+    constructor(id?: number, author?: Friend, group?: Group, content?: string) {
         this._id = id ? id : 0;
-        this._author = author ? author : new User();
+        this._author = author ? author : new Friend();
         this._group = group ? group : new Group();
         this._content = content ? content : "";
     }
@@ -29,10 +30,10 @@ export class Message implements IFriendsBetsModels {
         this._id = id;
     }
 
-    get author(): User {
+    get author(): Friend {
         return this._author;
     }
-    set author(u: User) {
+    set author(u: Friend) {
         this._author = u;
     }
 

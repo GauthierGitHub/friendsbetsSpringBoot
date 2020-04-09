@@ -26,10 +26,11 @@ public interface FriendRepository extends JpaRepository<Friend, Long>  {
 	Set<Friend> findAllOthers(long id); // or User u ?
 
 	@Query(value=
-			"SELECT * FROM UserFbs "
+			"SELECT DTYPE, id, nickname, picturePath FROM UserFbs "
 			+ "RIGHT JOIN UserFbs_friends ON UserFbs.id = UserFbs_friends.friends_id "
 			+ "WHERE UserFbs_friends.User_id = ?1" // ?1.get(id) OR ?1.id ??????
 			, nativeQuery = true)
+	
 	Set<Friend> findFriends(long id);
 
 

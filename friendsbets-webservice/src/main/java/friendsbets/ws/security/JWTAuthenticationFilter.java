@@ -24,6 +24,7 @@ import static friendsbets.core.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper(); //thread-safe
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -35,7 +36,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse res) throws AuthenticationException {
 
         try {
-            friendsbets.core.models.User creds = new ObjectMapper()
+            friendsbets.core.models.User creds = OBJECT_MAPPER 
                     .readValue(req.getInputStream(), friendsbets.core.models.User.class);
 
             return authenticationManager.authenticate(

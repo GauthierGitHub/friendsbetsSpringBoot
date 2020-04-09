@@ -37,6 +37,9 @@ export class Serializer {
         // merge o and T as new T
         let entity = new type();
         entity = Object.assign(entity, o);
+        delete entity["jsonType"];
+        console.log(entity);
+        
         return entity;
     }
 
@@ -47,7 +50,7 @@ export class Serializer {
     private static addPicturePath(o: Object) {
         // TODO: ask where store img + organize picture
         switch (o["jsonType"]) {
-            case "User":
+            case "Friend" || "User":
                 if (o["picturePath"])
                     o["picturePath"] = "assets/img/" + o["picturePath"];
                 else
