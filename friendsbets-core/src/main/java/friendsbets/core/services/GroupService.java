@@ -24,7 +24,8 @@ public class GroupService {
 		g.getUserList().stream()
 			.map(u -> u.getGrpList())
 			.filter(Objects::nonNull)
-			.forEach(gl -> gl.add(g)); // automatic dirty checking save them in db
+			.forEach(gl -> gl.add(g)); // Automatic Dirty Checking will save user.groupList
+		gr.save(g);
 	}
 
 	public void delete(Group g) {

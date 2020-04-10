@@ -112,13 +112,10 @@ public class Group {
 		this.picturePath = picturePath;
 	}
 
-//	@Override
-//	public String toString() {
-//		String users = "|";
-//		for (FbsUser u : userList) {
-//			users += u.getNickname() + "|";
-//		}
-//		return "Group " + id + "(admin = " + adminGroup.getNickname() + ")\n  " + users;
-//	}
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", name=" + name + ", picturePath=" + picturePath + "]";
+	}
+
 
 }

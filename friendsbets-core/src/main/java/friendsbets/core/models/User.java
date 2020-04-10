@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,10 +22,18 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jsonType")
 @JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "UserFbs")
-public class User extends Friend {
-
+public class User {
+	
+	@Id
+	@GeneratedValue
+	private long id;
+	@Column(unique = true, nullable = false)
+	private String nickname;
+	private String picturePath;
+	@JsonIgnore
 	@Column(nullable = false, columnDefinition = "BINARY (60)") // Better for BCryptPasswordEncoder
 	private String password;
+	@JsonIgnore
 	@Column(unique = true, nullable = false)
 	private String email;
 	@JsonIgnore
@@ -55,7 +65,9 @@ public class User extends Friend {
 
 	User(long id, String nickname, String email, String password, String picturePath, Set<Bet> betsInitialized,
 			Set<Bet> betsFollowed, Set<Group> grpList, Set<User> friends, String token, LocalDateTime tokenLastUsed) {
-		super(id, nickname, picturePath);
+		this.id = id;
+		this.nickname = nickname;
+		this.picturePath = picturePath;
 		this.email = email;
 		this.password = password;
 		this.betsInitialized = betsInitialized;
@@ -64,6 +76,30 @@ public class User extends Friend {
 		this.friends = friends;
 		this.token = token;
 		this.tokenLastUsed = tokenLastUsed;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPicturePath() {
+		return picturePath;
+	}
+
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 
 	public String getPassword() {
@@ -82,14 +118,6 @@ public class User extends Friend {
 		this.email = email;
 	}
 
-	public Set<Group> getGrpList() {
-		return grpList;
-	}
-
-	public void setGrpList(Set<Group> grpList) {
-		this.grpList = grpList;
-	}
-
 	public Set<Bet> getBetsInitialized() {
 		return betsInitialized;
 	}
@@ -104,6 +132,14 @@ public class User extends Friend {
 
 	public void setBetsFollowed(Set<Bet> betsFollowed) {
 		this.betsFollowed = betsFollowed;
+	}
+
+	public Set<Group> getGrpList() {
+		return grpList;
+	}
+
+	public void setGrpList(Set<Group> grpList) {
+		this.grpList = grpList;
 	}
 
 	public Set<User> getFriends() {
@@ -130,9 +166,5 @@ public class User extends Friend {
 		this.tokenLastUsed = tokenLastUsed;
 	}
 
-	@Override
-	public String toString() {
-		return "FriendsBetsUser [id=" + getId() + ", nickname=" + getNickname() + ", password=" + password + ", email=" + email;
-	}
 
 }
