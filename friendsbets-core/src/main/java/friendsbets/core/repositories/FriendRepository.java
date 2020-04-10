@@ -17,20 +17,19 @@ public interface FriendRepository extends JpaRepository<Friend, Long>  {
 	@Query("from User u where u.nickname like %?1% or u.email like %?1%")
 	Set<Friend> findByNicknameOrEmailLike(String pattern);
 
-	@Query(value="SELECT * FROM UserFbs "
+	@Query(value="SELECT * FROM FriendFbs "
 				+ "WHERE id != ?1 AND id NOT IN ("
 						+ "SELECT friends_id "
 						+ "FROM UserFbs_friends "
-						+ "WHERE UserFbs_friends.User_id = ?1)"
+						+ "WHERE UserFbs_friends.User_ID = ?1)"
 			, nativeQuery = true)
 	Set<Friend> findAllOthers(long id); // or User u ?
 
 	@Query(value=
-			"SELECT DTYPE, id, nickname, picturePath FROM UserFbs "
-			+ "RIGHT JOIN UserFbs_friends ON UserFbs.id = UserFbs_friends.friends_id "
-			+ "WHERE UserFbs_friends.User_id = ?1" // ?1.get(id) OR ?1.id ??????
+			"SELECT * FROM FriendFbs "
+			+ "RIGHT JOIN UserFbs_friends ON FriendFbs.id = UserFbs_friends.friends_id "
+			+ "WHERE UserFbs_friends.User_ID = ?1" // ?1.get(id) OR ?1.id ??????
 			, nativeQuery = true)
-	
 	Set<Friend> findFriends(long id);
 
 

@@ -19,12 +19,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-//@MappedSuperclass
+@Table(name = "FriendFbs")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jsonType")
 @JsonIdentityInfo(scope = Friend.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @JsonSubTypes(@JsonSubTypes.Type(value = User.class, name = "User"))
-@Table(name = "UserFbs")
 public class Friend {
 
 	@Id
