@@ -38,10 +38,7 @@ class GroupRepositoryIT {
 		Set<Group> hs = new HashSet<>();
 		hs.add(g1);
 		hs.add(g2);
-		assertEquals(
-				hs.stream().collect(Collectors.toSet())
-				, gr.findAllForOneUser(1).stream().collect(Collectors.toSet())
-				, "Searching all groups for user 1 should return group 17 and 22");
+		assertEquals(hs, gr.findAllForOneUser(1), "Searching all groups for user 1 should return group 17 and 22");
 		// verifyNoMoreInteractions(gr.findAllForOneUser(1)); // only mock
 		// reset h2 database ?
 	}
