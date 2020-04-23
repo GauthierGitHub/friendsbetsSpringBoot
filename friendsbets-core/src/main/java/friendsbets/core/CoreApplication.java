@@ -17,7 +17,7 @@ public class CoreApplication {
 		Logger.getLogger("		CORE APP").info("		!! CORE IS RUNNING !!");
 	}
 	
-	///// PERSONAL BEANS /////
+	///// PERSONAL TEST BEANS /////
 	
 //	@Autowired
 //	UserService us;
@@ -38,7 +38,7 @@ public class CoreApplication {
 	}
 	
 	/**
-	 * Needed for inject it.
+	 * Needed for injection.
 	 * @return
 	 */
     @Bean

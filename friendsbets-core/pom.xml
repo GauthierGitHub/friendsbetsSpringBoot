@@ -3,25 +3,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>friendsbets</groupId>
 		<artifactId>friendsbets</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		 <!-- lookup parent from repository -->
-		<!-- <relativePath />-->
+		<!-- lookup parent from repository -->
+		<!-- <relativePath /> -->
 	</parent>
-	
+
 	<artifactId>friendsbets-core</artifactId>
 	<name>friendsbets-core</name>
 	<description>Challenge your friends !</description>
-	
+
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
-	
-	
+
+	<dependencies>
+		<!-- Integration Test -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.199</version>
+			<scope>test</scope>
+		</dependency>
+	 
+	</dependencies>
+
+
 </project>
