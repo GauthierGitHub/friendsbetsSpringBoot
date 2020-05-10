@@ -43,6 +43,10 @@ public class Group {
 		this(0L, null, null, null, null, null);
 	}
 
+	public Group(long id) {
+		this(id, null, null, null, null, null);
+	}
+	
 	Group(long id, String name, Set<User> users, Set<Bet> bets, List<Message> messages, String picturePath) {
 		super();
 		this.id = id;

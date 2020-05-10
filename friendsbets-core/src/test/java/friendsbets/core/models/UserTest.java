@@ -10,8 +10,10 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("unit-test")
 class UserTest {
 
 	User u;
@@ -186,7 +188,7 @@ class UserTest {
 	}
 
 	@Test
-	void testGetSetGroup() {
+	void testGetSetGroups() {
 		// Given
 		long id = 0L; // Value used by no args constructor.
 		String nickname = null;
@@ -195,8 +197,8 @@ class UserTest {
 		String picturePath = null;
 		Set<Bet> betsInitialized = null;
 		Set<Bet> betsFollowed = null;
-		Set<Group> groupsSetter = new HashSet<>(Arrays.asList(new Group()));
-		Set<Group> groupsConstructor = null;
+		Set<Group> groupsSetter = new HashSet<>(Arrays.asList(new Group(1L)));
+		Set<Group> groupsConstructor = new HashSet<>(Arrays.asList(new Group(2L)));;
 		Set<User> friends = null;
 		String token = null;
 		LocalDateTime tokenLastUsed = null;
@@ -207,5 +209,77 @@ class UserTest {
 		assertEquals(groupsConstructor, user.getGroups(), "getGroups() from constructor.");
 		assertDoesNotThrow(() -> user.setGroups(groupsSetter), "setGroups() after constructor.");
 		assertEquals(groupsSetter, user.getGroups(), "getGroups() from setter.");
+	}
+
+	@Test
+	void testGetSetFriends() {
+		// Given
+		long id = 0L; // Value used by no args constructor.
+		String nickname = null;
+		String email = null;
+		String password = ""; // Can throw NullPointerException with class Password
+		String picturePath = null;
+		Set<Bet> betsInitialized = null;
+		Set<Bet> betsFollowed = null;
+		Set<Group> groups = null;
+		Set<User> friendsSetter = new HashSet<>(Arrays.asList(new User(1L), new User(2L)));
+		Set<User> friendsConstructor = new HashSet<>(Arrays.asList(new User(3), new User(4)));
+		String token = null;
+		LocalDateTime tokenLastUsed = null;
+		// When
+		User user = new User(id, nickname, email, password, picturePath, betsInitialized, betsFollowed,
+				groups, friendsConstructor, token, tokenLastUsed); // Test constructor too.
+		// Then
+		assertEquals(friendsConstructor, user.getFriends(), "getFriends() from constructor.");
+		assertDoesNotThrow(() -> user.setFriends(friendsSetter), "setFriends() after constructor.");
+		assertEquals(friendsSetter, user.getFriends(), "getFriends() from setter.");
+	}
+	
+	@Test
+	void testGetSetToken() {
+		// Given
+		long id = 0L; // Value used by no args constructor.
+		String nickname = null;
+		String email = null;
+		String password = ""; // Can throw NullPointerException with class Password
+		String picturePath = null;
+		Set<Bet> betsInitialized = null;
+		Set<Bet> betsFollowed = null;
+		Set<Group> groups = null;
+		Set<User> friends = null;
+		String tokensetter = "a";
+		String tokenConstructor = "b";
+		LocalDateTime tokenLastUsed = null;
+		// When
+		User user = new User(id, nickname, email, password, picturePath, betsInitialized, betsFollowed,
+				groups, friends, tokenConstructor, tokenLastUsed); // Test constructor too.
+		// Then
+		assertEquals(tokenConstructor, user.getToken(), "getToken() from constructor.");
+		assertDoesNotThrow(() -> user.setToken(tokensetter), "setToken() after constructor.");
+		assertEquals(tokensetter, user.getToken(), "getToken() from setter.");
+	}
+	
+	@Test
+	void testGetSetTokenLastUsed() {
+		// Given
+		long id = 0L; // Value used by no args constructor.
+		String nickname = null;
+		String email = null;
+		String password = ""; // Can throw NullPointerException with class Password
+		String picturePath = null;
+		Set<Bet> betsInitialized = null;
+		Set<Bet> betsFollowed = null;
+		Set<Group> groups = null;
+		Set<User> friends = null;
+		String token =null;
+		LocalDateTime tokenLastSetter = LocalDateTime.now();
+		LocalDateTime tokenLastUsedConstructor = LocalDateTime.now().plusDays(1L);
+		// When
+		User user = new User(id, nickname, email, password, picturePath, betsInitialized, betsFollowed,
+				groups, friends, token, tokenLastUsedConstructor); // Test constructor too.
+		// Then
+		assertEquals(tokenLastUsedConstructor, user.getTokenLastUsed(), "getTokenLastUsed() from constructor.");
+		assertDoesNotThrow(() -> user.setTokenLastUsed(tokenLastSetter), "setTokenLastUsed() after constructor.");
+		assertEquals(tokenLastSetter, user.getTokenLastUsed(), "getTokenLastUsed() from setter.");
 	}
 }

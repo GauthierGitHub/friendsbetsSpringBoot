@@ -54,7 +54,11 @@ public class User {
 	public User() {
 		this(0L, null, null, null, null, null, null, null, null, null, null);
 	}
-
+	
+	public User(long id) {
+		this(id, null, null, null, null, null, null, null, null, null, null);
+	}
+	
 	public User(String nickname, String email, String password) {
 		this(0L, nickname, email, password, null, null, null, null, null, null, null);
 	}

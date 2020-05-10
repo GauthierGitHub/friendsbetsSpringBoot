@@ -46,7 +46,7 @@ public class UserService {
 		return ur.findFriends(id);
 	}
 	
-	public void addFriends(long id, HashSet<User> friends) {
+	public void addFriends(long id, Set<User> friends) {
 		friends.stream().forEach(x -> ur.addFriends(id, x));
 	}
 

@@ -1,6 +1,6 @@
 package friendsbets.core.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,18 +31,17 @@ public class Message {
 	@JoinColumn(nullable = false)
 	@JsonIdentityReference(alwaysAsId = true) // only id in JSON
 	private Group group;
-	@Temporal(TemporalType.TIMESTAMP) // TODO: verify beetwen angular date or database timestamp
-	private Date date;
+	private LocalDateTime date;
 	@Column(nullable = false)
 	private String content;
 
 	public Message() {
 	}
 
-	public Message(User user, Group group, Date messageDate, String content) {
+	public Message(User user, Group group, LocalDateTime date, String content) {
 		this.author = user;
 		this.group = group;
-		this.date = messageDate;
+		this.date = date;
 		this.content = content;
 	}
 
@@ -70,11 +69,11 @@ public class Message {
 		this.group = group;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

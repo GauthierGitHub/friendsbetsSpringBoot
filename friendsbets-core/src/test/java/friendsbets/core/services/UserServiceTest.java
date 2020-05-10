@@ -17,33 +17,26 @@ import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.ArgumentCaptor;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import friendsbets.core.ServiceUnitTestBase;
 import friendsbets.core.models.User;
-import friendsbets.core.repositories.UserRepository;
 
-@SpringBootTest
-class UserServiceTest {
-	
-	// mock objects
-	@Mock
-	UserRepository ur;
-	
-	// object under test
-	@InjectMocks
-	UserService us;
-	
-	// data fixtures TODO: static final ? Given
+class UserServiceTest extends ServiceUnitTestBase {
+
+	@Autowired
+	UserService userService;
+
+	// data fixtures 
 	User u1 = new User(1, "nickname1", "email1", "password1");
-	User u2 = new User(1, "nickname2", "email2", "password2");
-	User u3 = new User(1, "nickname3", "email3", "password3");
+	User u2 = new User(2, "nickname2", "email2", "password2");
+	User u3 = new User(3, "nickname3", "email3", "password3");
 	User u4 = new User("nickname4", "email4", "password4");
 	List<User> lu = new ArrayList<User>();
 	Set<User> friends = new HashSet<User>();
 	Set<User> others = new HashSet<User>();
-	
+
 	public UserServiceTest() {
 		lu.add(u1);
 		lu.add(u2);
@@ -55,146 +48,85 @@ class UserServiceTest {
 		others.add(u3);
 		others.add(u4);
 	}
-			
+
 	// reseting mocks after each use
 	@AfterEach
 	void resetMock() {
-		reset(ur);
+		reset(userRepository);
 	}
-	
+
 	@Test
 	void save() { // TODO: make it works
 		// configuring mock
-		when(ur.save(u1)).thenReturn(u1);
+		when(userRepository.save(u1)).thenReturn(u1);
 		// state test
-		assertEquals(u1, us.save(u1), "Saving a user should return it");
+		assertEquals(u1, userService.save(u1), "Saving a user should return it");
 		// behavior test
-		verify(ur, times(1)).save(u1);
-		verifyNoMoreInteractions(ur);
+		verify(userRepository, times(1)).save(u1);
+		verifyNoMoreInteractions(userRepository);
 	}
-	
+
 	@Test
 	void findAll() {
-		when(ur.findAll()).thenReturn(lu);
-		assertEquals(lu, us.findAll(), "Searching all users should return a list of user");
-		verify(ur, times(1)).findAll();
-		verifyNoMoreInteractions(ur);
+		when(userRepository.findAll()).thenReturn(lu);
+		assertEquals(lu, userService.findAll(), "Searching all users should return a list of user");
+		verify(userRepository, times(1)).findAll();
+		verifyNoMoreInteractions(userRepository);
 	}
-	
+
 	@Test
 	void findById() {
 		// configuring mock
-		when(ur.findById(1L)).thenReturn(Optional.of(u1));
-		when(ur.findById(5L)).thenReturn(Optional.empty());
+		when(userRepository.findById(1L)).thenReturn(Optional.of(u1));
+		when(userRepository.findById(5L)).thenReturn(Optional.empty());
 		// state test
-		assertEquals(u1, us.findById(1)
-				, "Searching an existing user should return it.");
-		assertThrows(NoSuchElementException.class, () -> us.findById(5)
-				, "Searching a non-existing user should throw a NoSuchElementException exception");
+		assertEquals(u1, userService.findById(1), "Searching an existing user should return it.");
+		assertThrows(NoSuchElementException.class, () -> userService.findById(5),
+				"Searching a non-existing user should throw a NoSuchElementException exception");
 		// behavior test
-		verify(ur, times(1)).findById(1L);
-		verify(ur, times(1)).findById(5L);
-		verifyNoMoreInteractions(ur);
+		verify(userRepository, times(1)).findById(1L);
+		verify(userRepository, times(1)).findById(5L);
+		verifyNoMoreInteractions(userRepository);
 	}
-	
+
 	@Test
 	void findByEmail() {
-		when(ur.findByEmail("email1")).thenReturn(u1);
-		assertEquals(u1, us.findByEmail("email1"));
-		verify(ur, times(1)).findByEmail("email1");
-		verifyNoMoreInteractions(ur);
+		when(userRepository.findByEmail("email1")).thenReturn(u1);
+		assertEquals(u1, userService.findByEmail("email1"));
+		verify(userRepository, times(1)).findByEmail("email1");
+		verifyNoMoreInteractions(userRepository);
 	}
 
 	@Test
 	void findByEmailAndPassword() {
-		when(ur.findByEmailAndPassword("email1", "password1")).thenReturn(u1);
-		assertEquals(u1, us.findByEmailAndPassword("email1", "password1"));
-		verify(ur, times(1)).findByEmailAndPassword("email1", "password1");
-		verifyNoMoreInteractions(ur);
+		when(userRepository.findByEmailAndPassword("email1", "password1")).thenReturn(u1);
+		assertEquals(u1, userService.findByEmailAndPassword("email1", "password1"));
+		verify(userRepository, times(1)).findByEmailAndPassword("email1", "password1");
+		verifyNoMoreInteractions(userRepository);
 	}
 
 	@Test
 	void findFriends() {
-		when(ur.findFriends(1)).thenReturn(friends);
-		assertEquals(friends, us.findFriends(1));
-		verify(ur, times(1)).findFriends(1);
-		verifyNoMoreInteractions(ur);
+		when(userRepository.findFriends(1)).thenReturn(friends);
+		assertEquals(friends, userService.findFriends(1));
+		verify(userRepository, times(1)).findFriends(1);
+		verifyNoMoreInteractions(userRepository);
 	}
-	
+
 	@Test
-	void addFriends() { // TODO: integration test ?
-//		when(ur.addFriends(1, u2)); // repository write user one by one
-		// tester le nombre d'appel du foreach
+	void addFriends() {
+		userService.addFriends(1L, friends); // the friends set is u2 u3
+		verify(userRepository, times(1)).addFriends(1L, u2);
+		verify(userRepository, times(1)).addFriends(1L, u3);
+		verifyNoMoreInteractions(userRepository);
 	}
-	
+
 	@Test
 	void findAllOthers() {
-		when(ur.findAllOthers(1)).thenReturn(others);
-		assertEquals(others, us.findAllOthers(1));
-		verify(ur, times(1)).findAllOthers(1);
-		verifyNoMoreInteractions(ur);
-		
-	}
-	
-//	@BeforeAll
-//	static void setUpBeforeClass() throws Exception {
-//	}
-//
-//	@AfterAll
-//	static void tearDownAfterClass() throws Exception {
-//	}
-//
-//	@BeforeEach
-//	void setUp() throws Exception {
-//	}
-//
-//	@AfterEach
-//	void tearDown() throws Exception {
-//	}
-//
-//	@Test
-//	void testSave() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindById() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindByEmail() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindByUserMailAndPassword() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindFriends() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testAddFriends() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindAllOthers() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFindByNicknameOrEmailLike() {
-//		fail("Not yet implemented");
-//	}
+		when(userRepository.findAllOthers(1)).thenReturn(others);
+		assertEquals(others, userService.findAllOthers(1));
+		verify(userRepository, times(1)).findAllOthers(1);
+		verifyNoMoreInteractions(userRepository);
 
+	}
 }
