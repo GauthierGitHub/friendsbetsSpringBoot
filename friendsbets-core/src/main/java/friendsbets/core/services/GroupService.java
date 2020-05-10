@@ -21,8 +21,8 @@ public class GroupService {
 	UserRepository ur;
 
 	public void save(Group g) {
-		g.getUserList().stream()
-			.map(u -> u.getGrpList())
+		g.getUsers().stream()
+			.map(u -> u.getGroups())
 			.filter(Objects::nonNull)
 			.forEach(gl -> gl.add(g)); // Automatic Dirty Checking will save user.groupList
 		gr.save(g);
@@ -41,7 +41,7 @@ public class GroupService {
 	}
 
 	public void addUserToGroup(Group g, User u) {
-		g.getUserList().add(u);
+		g.getUsers().add(u);
 		update(g);
 	}
 

@@ -16,13 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-/**
- * @Entity
- * @author Gauthier Barbet
- *
- */
 @Entity
-// id generator for repeated objects
 @JsonIdentityInfo(scope = Message.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "MessageFbs")
 public class Message {
@@ -35,12 +29,12 @@ public class Message {
 	private User author;
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	@JsonIdentityReference(alwaysAsId = true) // only id in json
+	@JsonIdentityReference(alwaysAsId = true) // only id in JSON
 	private Group group;
 	@Temporal(TemporalType.TIMESTAMP) // TODO: verify beetwen angular date or database timestamp
 	private Date date;
 	@Column(nullable = false)
-	private String content; // TODO limit to 255
+	private String content;
 
 	public Message() {
 	}

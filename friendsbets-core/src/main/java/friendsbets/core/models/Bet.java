@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -48,12 +47,6 @@ public class Bet {
 	@Enumerated(EnumType.STRING) // TODO String or int ?
 	private BetType betType;
 
-	/**
-	 * public ????
-	 * 
-	 * @author gauthier
-	 *
-	 */
 	public static enum BetType {
 		WINNER, DRAW, SCORE
 	}

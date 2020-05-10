@@ -23,7 +23,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.UserRepository;
-import friendsbets.core.services.UserService;
 
 @SpringBootTest
 class UserServiceTest {

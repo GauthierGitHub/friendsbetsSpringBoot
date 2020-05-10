@@ -23,19 +23,19 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "UserFbs")
 public class User {
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
 	@Column(unique = true, nullable = false)
 	private String nickname;
-	private String picturePath;
-	@JsonIgnore
-	@Column(nullable = false, columnDefinition = "BINARY (60)") // Better for BCryptPasswordEncoder
-	private String password;
 	@JsonIgnore
 	@Column(unique = true, nullable = false)
 	private String email;
+	@JsonIgnore
+	@Column(nullable = false, columnDefinition = "BINARY (60)") // Better for BCryptPasswordEncoder
+	private String password;
+	private String picturePath;
 	@JsonIgnore
 	@OneToMany(mappedBy = "betInitialUser", cascade = CascadeType.PERSIST)
 	private Set<Bet> betsInitialized;
@@ -43,8 +43,8 @@ public class User {
 	@ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY)
 	private Set<Bet> betsFollowed;
 	@JsonIgnore
-	@ManyToMany(mappedBy = "userList", fetch = FetchType.EAGER)
-	private Set<Group> grpList;
+	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	private Set<Group> groups;
 	@JsonIgnore
 	@ManyToMany
 	private Set<User> friends;
@@ -64,15 +64,15 @@ public class User {
 	}
 
 	User(long id, String nickname, String email, String password, String picturePath, Set<Bet> betsInitialized,
-			Set<Bet> betsFollowed, Set<Group> grpList, Set<User> friends, String token, LocalDateTime tokenLastUsed) {
+			Set<Bet> betsFollowed, Set<Group> groups, Set<User> friends, String token, LocalDateTime tokenLastUsed) {
 		this.id = id;
 		this.nickname = nickname;
-		this.picturePath = picturePath;
 		this.email = email;
 		this.password = password;
+		this.picturePath = picturePath;
 		this.betsInitialized = betsInitialized;
 		this.betsFollowed = betsFollowed;
-		this.grpList = grpList;
+		this.groups = groups;
 		this.friends = friends;
 		this.token = token;
 		this.tokenLastUsed = tokenLastUsed;
@@ -94,12 +94,12 @@ public class User {
 		this.nickname = nickname;
 	}
 
-	public String getPicturePath() {
-		return picturePath;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPicturePath(String picturePath) {
-		this.picturePath = picturePath;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -110,12 +110,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getPicturePath() {
+		return picturePath;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 
 	public Set<Bet> getBetsInitialized() {
@@ -134,12 +134,12 @@ public class User {
 		this.betsFollowed = betsFollowed;
 	}
 
-	public Set<Group> getGrpList() {
-		return grpList;
+	public Set<Group> getGroups() {
+		return groups;
 	}
 
-	public void setGrpList(Set<Group> grpList) {
-		this.grpList = grpList;
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
 	}
 
 	public Set<User> getFriends() {
@@ -165,6 +165,5 @@ public class User {
 	public void setTokenLastUsed(LocalDateTime tokenLastUsed) {
 		this.tokenLastUsed = tokenLastUsed;
 	}
-
 
 }

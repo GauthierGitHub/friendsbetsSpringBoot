@@ -19,53 +19,44 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-/**
- * @Entity
- * @author Gauthier Barbet
- *
- */
 @Entity
-// Add jsonType property.
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jsonType")
-// Serialize to just an id in graph cluster.
 @JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-@Table(name="GroupFbs")
+@Table(name = "GroupFbs")
 public class Group {
 	@Id
 	@GeneratedValue
 	private long id;
 	@Column(nullable = true)
 	private String name;
-//	@ManyToOne
-	// TODO: DELETE ME ! first user is Admin ?
-//	@JoinColumn(nullable = false) // @Column(s) not allowed on a @OneToOne property.
-//	private User adminGroup;
-	/**
-	 * Set is better than arrayList. Jpa will not create both primary key in the
-	 * association Table with List ... Can be resolved by @EmbeddedId ?
-	 * TODO: Better way to fetch type ? here user calls groups and not inverse
-	 */
-//	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY) 
-	private Set<User> userList = new LinkedHashSet<User>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<User> users = new LinkedHashSet<>(); // first user will be administrator.
 	@JsonIgnore
 	@OneToMany(mappedBy = "group")
-	private Set<Bet> betList = new TreeSet<>();
+	private Set<Bet> bets = new TreeSet<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "group")
-	private List<Message> groupMessages;
+	private List<Message> messages;
 	private String picturePath;
-	
-	public Group() {}
-	
-//	public Group(User u) {
-//		this.adminGroup = u;
-//		userList.add(adminGroup);
-//	}
+
+	public Group() {
+		this(0L, null, null, null, null, null);
+	}
+
+	Group(long id, String name, Set<User> users, Set<Bet> bets, List<Message> messages, String picturePath) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.users = users;
+		this.bets = bets;
+		this.messages = messages;
+		this.picturePath = picturePath;
+	}
 
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -73,48 +64,41 @@ public class Group {
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-//	public User getAdminGroup() {
-//		return adminGroup;
-//	}
-//	public void setAdminGroup(User adminGroup) {
-//		this.adminGroup = adminGroup;
-//	}
-
-	public Set<User> getUserList() {
-		return userList;
-	}
-	public void setUserList(Set<User> userList) {
-		this.userList = userList;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public Set<Bet> getBetList() {
-		return betList;
-	}
-	public void setBetList(Set<Bet> betList) {
-		this.betList = betList;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
-	public List<Message> getGroupMessages() {
-		return groupMessages;
+	public Set<Bet> getBets() {
+		return bets;
 	}
-	public void setGroupMessages(List<Message> groupMessages) {
-		this.groupMessages = groupMessages;
+
+	public void setBets(Set<Bet> bets) {
+		this.bets = bets;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
 
 	public String getPicturePath() {
 		return picturePath;
 	}
+
 	public void setPicturePath(String picturePath) {
 		this.picturePath = picturePath;
-	}
-
-	@Override
-	public String toString() {
-		return "Group [id=" + id + ", name=" + name + ", picturePath=" + picturePath + "]";
 	}
 
 	@Override
@@ -138,6 +122,5 @@ public class Group {
 			return false;
 		return true;
 	}
-
 
 }

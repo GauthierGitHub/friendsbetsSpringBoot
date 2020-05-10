@@ -31,7 +31,7 @@ public class Match {
     private int[] result =  new int[2];
     //private Object winner; Object can't be use by hibernate
     @OneToMany(mappedBy = "match")
-    private List<Bet> betList;
+    private List<Bet> bets;
     
     public Match() {}
 
@@ -59,11 +59,11 @@ public class Match {
 		this.result = result;
 	}
 
-	public List<Bet> getBetList() {
-		return betList;
+	public List<Bet> getBets() {
+		return bets;
 	}
 
-	public void setBetList(List<Bet> betList) {
-		this.betList = betList;
+	public void setBets(List<Bet> bets) {
+		this.bets = bets;
 	}
 }
