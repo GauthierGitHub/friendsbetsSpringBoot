@@ -1,4 +1,4 @@
-package friendsbets.core;
+package friendsbets.core.testbase;
 
 public class ControllerUnitTestBase extends UnitTestBase {
 

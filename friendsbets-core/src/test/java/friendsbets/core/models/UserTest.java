@@ -12,9 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import friendsbets.core.testbase.UnitTestBase;
+
 @SpringBootTest
 @ActiveProfiles("unit-test")
-class UserTest {
+class UserTest extends UnitTestBase{
 
 	User u;
 

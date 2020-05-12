@@ -17,11 +17,10 @@ import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import friendsbets.core.ServiceUnitTestBase;
 import friendsbets.core.models.User;
+import friendsbets.core.testbase.ServiceUnitTestBase;
 
 class UserServiceTest extends ServiceUnitTestBase {
 
