@@ -12,7 +12,6 @@
 		<!-- <relativePath />-->
 	</parent>
 	
-	<groupId>friendsbets</groupId>
 	<artifactId>friendsbets-webservice</artifactId>
 	<name>friendsbets-webservice</name>
 	<description>Challenge your friends !</description>
