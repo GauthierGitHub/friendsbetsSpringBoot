@@ -1,4 +1,5 @@
 import { IFriendsBetsModels } from './models-interfaces/IFriendsBetsModels';
+import { Friend } from './Friend.model';
 
 export class User implements IFriendsBetsModels {
 
@@ -9,7 +10,7 @@ export class User implements IFriendsBetsModels {
     private _password: string;
     private _token: string;
     private _tokenLastUsed: Date;
-    private _friends: User[];
+    private _friends: Friend[];
     private _picturePath: string;
 
     constructor();
@@ -20,6 +21,10 @@ export class User implements IFriendsBetsModels {
         this._nickname = nickname ? nickname : undefined;
         this._email = email ? email : undefined;
         this._password = password ? password : undefined;
+    }
+
+    public toFriend(): Friend {
+        return new Friend(this.id, this.nickname, this.picturePath);
     }
 
     get id(): number {
@@ -64,10 +69,10 @@ export class User implements IFriendsBetsModels {
         this._tokenLastUsed = _tokenLastUsed;
     }
 
-    get friends(): User[] {
+    get friends(): Friend[] {
         return this._friends;
     }
-    set friends(_friends: User[]) {
+    set friends(_friends: Friend[]) {
         this._friends = _friends;
     }
 

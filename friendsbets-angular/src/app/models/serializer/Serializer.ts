@@ -25,8 +25,8 @@ export class Serializer {
      * Can't be separate in two functions: T would be read as a value.
      * Needed for transform json to the right TypeScript Object.
      * performance : https://itnext.io/can-json-parse-be-performance-improvement-ba1069951839
-     * @param o 
-     * @param type TypeScript Class that neede
+     * @param o the json from rest webservice
+     * @param type TypeScript Class that is needed
      */
     static toTypeScriptObject<T>(o: Object, type: (new () => T)): T { 
         // TODO: verify perf       
@@ -47,7 +47,7 @@ export class Serializer {
     private static addPicturePath(o: Object) {
         // TODO: ask where store img + organize picture
         switch (o["jsonType"]) {
-            case "User":
+            case "User" || "Friend":
                 if (o["picturePath"])
                     o["picturePath"] = "assets/img/" + o["picturePath"];
                 else
@@ -59,7 +59,7 @@ export class Serializer {
                 else
                     o["picturePath"] = "assets/img/group.png";
                 // img for users in group
-                o["userList"].forEach(user => this.addPicturePath(user));
+                o["users"].forEach(user => this.addPicturePath(user));
                 break;
             default:
                 break;

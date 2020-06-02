@@ -1,5 +1,7 @@
 package friendsbets.core.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,15 @@ public class AuthenticationService {
 	UserRepository ur;
 	
 	public User register(User u) {
-		return ur.save(u);
+		u.setTokenLastUsed(LocalDateTime.now());
+		u = ur.save(u);
+		u.setPassword(null);
+		return u;
 	}
 	
 	public User login(String email, String password) {
-		return ur.findByEmailAndPassword(email, password);
+		User u = ur.findByEmailAndPassword(email, password);
+		return register(u);	
 	}
 
 	public void update(User u) {
@@ -26,6 +32,14 @@ public class AuthenticationService {
 	
 	public void delete(User u) {
 		ur.delete(u);
+	}
+
+	public User findById(long id) {
+		return ur.findById(id).orElseThrow();
+	}
+	
+	public User findByEmail(String email) {
+		return ur.findByEmail(email);
 	}
 
 }

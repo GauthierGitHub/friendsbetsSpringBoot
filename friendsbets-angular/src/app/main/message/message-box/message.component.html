@@ -2,8 +2,8 @@
 
   <header class="fixed-top">
     <img src="{{ group.picturePath}}" alt="{{ group.name }}">
-    <ng-container *ngFor="let user of group.userList">
-      <img src="{{ user.picturePath }}" alt="{{ user.nickname }}">
+    <ng-container *ngFor="let friend of group.friends">
+      <img src="{{ friend.picturePath }}" alt="{{ friend.nickname }}">
     </ng-container>
     <div class="dropdown">
       <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"

@@ -1,17 +1,18 @@
 import { User } from './User.model';
 import { IFriendsBetsModels } from './models-interfaces/IFriendsBetsModels';
+import { Friend } from './Friend.model';
 
 export class Group implements IFriendsBetsModels {
     
+    // TODO: replace string by models ?
     readonly IS_MODEL: boolean = true;
     private _id: number;
     private _name: string;
-    private _userList: User[];
-    // TODO: replace string by models ?
-    private _betList: string[];
-    private _groupMessages: string[];
+    private _users: number[];
+    private _friends: Friend[];
+    private _bets: string[];
+    private _messages: string[];
     private _picturePath: string;
-
 
     constructor();
     constructor(id: number, name: string);
@@ -21,45 +22,61 @@ export class Group implements IFriendsBetsModels {
         this._name = name ? name : undefined;
     }
 
-    get id(): number {
+    public get id(): number {
         return this._id;
     }
-    set id(_id: number) {
-        this._id = _id;
+
+    public set id(id: number) {
+        this._id = id;
     }
 
-    get name(): string {
+    public get name(): string {
         return this._name;
     }
-    set name(_name: string){
-        this._name = _name;
+
+    public set name(name: string) {
+        this._name = name;
     }
 
-    get userList(): User[] {
-        return this._userList;
-    }
-    set userList(_userList: User[]){
-        this._userList = _userList;
+    public get users(): number[] {
+        return this._users;
     }
 
-    get betList(): string[] {
-        return this._betList;
-    }
-    set betList(_betList: string[]){
-        this._betList = _betList;
+    public set users(users: number[]) {
+        this._users = users;
     }
 
-    get groupMessages(): string[] {
-        return this._groupMessages;
-    }
-    set groupMessages(_groupMessages: string[]){
-        this._groupMessages = _groupMessages;
+    public get friends(): Friend[] {
+        return this._friends;
     }
 
-    get picturePath(): string {
+    public set friends(friends: Friend[]) {
+        this._friends = friends;
+    }
+
+    public get bets(): string[] {
+        return this._bets;
+    }
+
+    public set bets(bets: string[]) {
+        this._bets = bets;
+    }
+
+    public get messages(): string[] {
+        return this._messages;
+    }
+
+    public set messages(messages: string[]) {
+        this._messages = messages;
+    }
+
+    public get picturePath(): string {
         return this._picturePath;
     }
-    set picturePath(_picturePath: string) {
-        this._picturePath = _picturePath;
+
+    public set picturePath(picturePath: string) {
+        this._picturePath = picturePath;
     }
+
+
 }

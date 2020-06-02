@@ -15,8 +15,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -31,12 +29,10 @@ public class User {
 	private long id;
 	@Column(unique = true, nullable = false)
 	private String nickname;
-	@JsonProperty(access = Access.READ_ONLY)
 	@Column(unique = true, nullable = false)
 	private String email;
-	@JsonProperty(access = Access.READ_ONLY)
 	@Column(nullable = false, columnDefinition = "BINARY (60)") // Better for BCryptPasswordEncoder
-	private String password;
+	private String password; // TODO: Password Object ?
 	private String picturePath;
 	@JsonIgnore
 	@OneToMany(mappedBy = "betInitialUser", cascade = CascadeType.PERSIST)
@@ -82,6 +78,10 @@ public class User {
 		this.friends = friends;
 		this.token = token;
 		this.tokenLastUsed = tokenLastUsed;
+	}
+	
+	public Friend toFriend() {
+		return new Friend(this.id, this.nickname, this.picturePath);
 	}
 
 	public long getId() {

@@ -1,5 +1,6 @@
 package friendsbets.ws.controllers;
 
+import org.jboss.logging.Logger;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,9 @@ public class GroupController {
 
 	@PostMapping("")
 	public void save(@RequestBody Group g) {
+		System.out.println("save group :");
+		System.out.println(g);
+		g.getUsers().stream().forEach(x -> Logger.getLogger(x.getClass() + " " + x.toString()).info(x.getId()));
 		gs.save(g);
 	}
 

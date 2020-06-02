@@ -22,7 +22,6 @@ import com.auth0.jwt.JWT;
 
 import friendsbets.core.models.User;
 import friendsbets.core.services.AuthenticationService;
-import friendsbets.core.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -33,14 +32,10 @@ public class AuthenticationController {
 	private AuthenticationService as;
 	
 	@Autowired
-	private UserService us;
-	
-	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
 	@PostMapping("/register")
 	public User register(@RequestBody User u) {
-		
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.setToken(JWT.create().sign(HMAC512(SECRET.getBytes())));
 		u.setTokenLastUsed(LocalDateTime.now());
@@ -49,7 +44,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/login")
 	public User login(@RequestParam String email, @RequestParam String password) {
-		User u = us.findByEmail(email);
+		User u = as.findByEmail(email);
 		u = passwordEncoder.matches(password, u.getPassword()) ? u : null; // TODO: error
 		return u;
 	}
@@ -62,7 +57,7 @@ public class AuthenticationController {
 	@DeleteMapping("/{id}")
 //	@RolesAllowed({"Administrator"}) ?
 	public void delete(@PathVariable int id) {
-		as.delete(us.findById(id));
+		as.delete(as.findById(id));
 	}
 	
 //	@GetMapping("/logout") public void logout(@RequestParam String email) { 

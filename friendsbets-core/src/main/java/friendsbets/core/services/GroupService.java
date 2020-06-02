@@ -3,10 +3,12 @@ package friendsbets.core.services;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import friendsbets.core.models.Friend;
 import friendsbets.core.models.Group;
 import friendsbets.core.models.User;
 import friendsbets.core.repositories.GroupRepository;
@@ -21,6 +23,10 @@ public class GroupService {
 	UserRepository ur;
 
 	public void save(Group g) {
+//		g.setUsers(g.getFriends().stream()
+//				.map(Friend::toUser)
+//				.filter(Objects::nonNull)
+//				.collect(Collectors.toSet()));
 		g.getUsers().stream()
 			.map(u -> u.getGroups())
 			.filter(Objects::nonNull)

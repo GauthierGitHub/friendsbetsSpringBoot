@@ -5,6 +5,7 @@ import { ConnectionService } from 'src/app/connection/connection.service';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Serializer } from 'src/app/models/serializer/Serializer';
+import { Friend } from 'src/app/models/Friend.model';
 
 @Component({
   selector: 'app-add-friends',
@@ -14,8 +15,8 @@ import { Serializer } from 'src/app/models/serializer/Serializer';
 })
 export class AddFriendsComponent implements OnInit {
 
-  allUsers: User[];
-  checkedUsers: User[];
+  allUsers: Friend[];
+  checkedUsers: Friend[];
 
   constructor(private fs: FriendsService
     , private cs: ConnectionService
@@ -37,12 +38,12 @@ export class AddFriendsComponent implements OnInit {
    * Toggle checked user in checkedUsers array.
    * @param u
    */
-  onCheckboxClicked(u: User): void {
-    if (this.checkedUsers.includes(u)) {
-      let pos = this.checkedUsers.findIndex(x => x == u);
+  onCheckboxClicked(friend: Friend): void {
+    if (this.checkedUsers.includes(friend)) {
+      let pos = this.checkedUsers.findIndex(x => x == friend);
       this.checkedUsers.splice(pos, 1);
     } else {
-      this.checkedUsers.push(u);
+      this.checkedUsers.push(friend);
     }
   }
 
