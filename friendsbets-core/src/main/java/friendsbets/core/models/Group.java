@@ -24,6 +24,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import friendsbets.core.customserializers.CustomUserDeserializer;
+
 
 @Entity
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "jsonType")
@@ -38,6 +42,7 @@ public class Group {
 	private String name;
 	@JsonProperty(access = Access.READ_ONLY)
 	@JsonIdentityReference(alwaysAsId=true) 
+    @JsonDeserialize(using = CustomUserDeserializer.class)
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<User> users;
 	@Transient
