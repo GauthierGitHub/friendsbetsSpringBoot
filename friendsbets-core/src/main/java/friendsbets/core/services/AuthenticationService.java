@@ -3,6 +3,7 @@ package friendsbets.core.services;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import friendsbets.core.models.User;
@@ -40,6 +41,15 @@ public class AuthenticationService {
 	
 	public User findByEmail(String email) {
 		return ur.findByEmail(email);
+	}
+
+	public boolean logout(String email) {
+		User u = ur.findByEmail(email);
+		if (u == null)
+			throw new UsernameNotFoundException("invalid email");
+		u.setToken(null);
+		u.setTokenLastUsed(null);
+		return u == null;
 	}
 
 }

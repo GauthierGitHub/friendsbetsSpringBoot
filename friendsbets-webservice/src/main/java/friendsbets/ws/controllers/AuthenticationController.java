@@ -6,10 +6,12 @@ import static friendsbets.core.security.SecurityConstants.SECRET;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,7 +32,7 @@ public class AuthenticationController {
 
 	@Autowired
 	private AuthenticationService as;
-	
+
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
@@ -41,11 +43,13 @@ public class AuthenticationController {
 		u.setTokenLastUsed(LocalDateTime.now());
 		return as.register(u);
 	}
-	
+
 	@PostMapping("/login")
 	public User login(@RequestParam String email, @RequestParam String password) {
 		User u = as.findByEmail(email);
-		u = passwordEncoder.matches(password, u.getPassword()) ? u : null; // TODO: error
+		u = passwordEncoder.matches(password, u.getPassword()) ? u : null;
+		if (u == null)
+			throw new UsernameNotFoundException("User not found.");
 		return u;
 	}
 
@@ -54,30 +58,31 @@ public class AuthenticationController {
 		as.update(u);
 	}
 
-	@DeleteMapping("/{id}")
-//	@RolesAllowed({"Administrator"}) ?
-	public void delete(@PathVariable int id) {
-		as.delete(as.findById(id));
+	/**
+	 * 
+	 * @param email of connected user
+	 * @return true if token and tokenLastUse deleted, false if not;
+	 */
+	@GetMapping("/logout")
+	public boolean logout(@RequestParam String email) {
+		return as.logout(email); // TODO: must get connected Users from the request
 	}
-	
-//	@GetMapping("/logout") public void logout(@RequestParam String email) { 
-//		as.logout(email); // TODO: must get connected Users from the request 	
+
+//	@DeleteMapping("/{id}")
+////	@RolesAllowed({"Administrator"}) ?
+//	public void delete(@PathVariable int id) {
+//		as.delete(as.findById(id));
 //	}
+
 //	
 //	@PostMapping("/byToken") public void byToken(@RequestParam String token) {
 //		 as.findByToken(token, Duration.ofMinutes(30), true);
 //	}
 
-	
-	
-	
-	
-	
 //	@Autowired
 //	private Environment env;
-	
-//	@RequestMapping(value="/login", method = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 
+//	@RequestMapping(value="/login", method = {RequestMethod.OPTIONS, RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
 
 //	@RequestMapping(value="/signin", method=RequestMethod.OPTIONS, produces = "application/json")
 //	public User signin(@RequestParam String email, @RequestParam String password) {
