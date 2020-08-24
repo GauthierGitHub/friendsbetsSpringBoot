@@ -17,6 +17,8 @@ export class Serializer {
      */
     static serializeToJSON(o: Object) {
         o = this.addJsonType(o);
+        console.log(JSON.parse(JSON.stringify(o).replace(/"_/g, '"')));
+        
         return JSON.parse(JSON.stringify(o).replace(/"_/g, '"'));
     }
 

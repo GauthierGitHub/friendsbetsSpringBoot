@@ -38,6 +38,7 @@ public class AuthenticationController {
 
 	@PostMapping("/register")
 	public User register(@RequestBody User u) {
+		System.out.println(u);
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.setToken(JWT.create().sign(HMAC512(SECRET.getBytes())));
 		u.setTokenLastUsed(LocalDateTime.now());

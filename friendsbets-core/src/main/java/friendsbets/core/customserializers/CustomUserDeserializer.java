@@ -32,10 +32,12 @@ public class CustomUserDeserializer extends StdDeserializer<Set<User>> {
 
 	public CustomUserDeserializer() {
 		this(null);
+		Logger.getLogger(getClass()).info("		!! CUSTOM DESERIALIZER !!");
 	}
 
 	public CustomUserDeserializer(Class<?> vc) {
 		super(vc);
+		Logger.getLogger(getClass()).info("		!! CUSTOM DESERIALIZER !!");
 	}
 
 	@Override

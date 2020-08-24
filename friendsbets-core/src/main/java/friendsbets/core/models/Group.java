@@ -40,7 +40,7 @@ public class Group {
 	private long id;
 	@Column(nullable = true)
 	private String name;
-	@JsonProperty(access = Access.READ_ONLY)
+	//@JsonProperty(access = Access.READ_ONLY)
 	@JsonIdentityReference(alwaysAsId=true) 
     @JsonDeserialize(using = CustomUserDeserializer.class)
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -152,9 +152,13 @@ public class Group {
 		return true;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "Group [id=" + id + ", name=" + name + ", users=" + users + "]";
+//	}
+
 	@Override
 	public String toString() {
-		return "Group [id=" + id + ", name=" + name + ", users=" + users + "]";
+		return "Group [id=" + id + ", name=" + name + ", users=" + users +  ", friends=" + friends + "]";
 	}
-
 }

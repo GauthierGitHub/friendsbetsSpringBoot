@@ -24,7 +24,7 @@ class GroupRepositoryIT {
 	
 	/**
 	 * Check if findAllForOneUser return right groups.
-	 * User with id 1 is engaged with group 17 and 22.
+	 * User with id 1 is engaged with group 17 and 22 on H2database .
 	 * Equals method for group verify only id.
 	 */
 	@Test
@@ -36,7 +36,11 @@ class GroupRepositoryIT {
 		Set<Group> hs = new HashSet<>();
 		hs.add(g1);
 		hs.add(g2);
+		System.out.println("test");
+		System.out.println(gr.findAll());
+		System.out.println(ur.findAll());
 		assertEquals(hs, gr.findAllForOneUser(1), "Searching all groups for user 1 should return group 17 and 22");
+		System.out.println("test end");
 		// verifyNoMoreInteractions(gr.findAllForOneUser(1)); // only mock
 		// reset h2 database ?
 	}
